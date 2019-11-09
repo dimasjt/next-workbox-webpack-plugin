@@ -46,6 +46,7 @@ class NextWorkboxWebpackPlugin {
       uniqueId,
       swDestRoot,
       swURLRoot,
+      prefix,
       ...swConfig
     } = {
       ...defaultConfig,
@@ -60,6 +61,7 @@ class NextWorkboxWebpackPlugin {
       precacheManifest,
       removeDir,
       buildId,
+      prefix,
       swDestRoot: swDestRoot || './static/workbox',
       swURLRoot: swURLRoot || '/static/workbox'
     };
@@ -94,21 +96,21 @@ class NextWorkboxWebpackPlugin {
     }
   }
 
-  globPrecacheManifest({ distDir, buildId }) {
+  globPrecacheManifest({ distDir, buildId, prefix }) {
     const precacheQuery = [
       {
         src: `${distDir}/static/runtime`,
-        route: f => `/_next/static/runtime/${f}`,
+        route: f => `${prefix}/_next/static/runtime/${f}`,
         filter: f => /.js$/.test(f)
       },
       {
         src: `${distDir}/static/chunks`,
-        route: f => `/_next/static/chunks/${f}`,
+        route: f => `${prefix}/_next/static/chunks/${f}`,
         filter: f => /.js$/.test(f)
       },
       {
         src: `${distDir}/static/${buildId}/pages`,
-        route: f => `/_next/static/${buildId}/pages/${f}`,
+        route: f => `${prefix}/_next/static/${buildId}/pages/${f}`,
         filter: f => f === '_app.js' || f === 'index.js'
       }
     ];
